@@ -12,7 +12,6 @@ const EMOJI_MAP = new Map<EMOJI_KEYS, string>([
 
 
 export default function Emoji() {
-    const [status, setStatus] = useState<EMOJI_KEYS>("happy");
     const [comida, setComida] = useState(2);
     const [agua, setAgua] = useState(2);
     const [luz, setLuz] = useState(false);
@@ -40,10 +39,18 @@ export default function Emoji() {
         }
     }
 
+    let status = EMOJI_MAP.get("happy");
+    if(energia === 0 || comida === 0 || agua === 0) {
+        status = EMOJI_MAP.get("sick");
+    } else {
+        status = EMOJI_MAP.get("happy");
+    }
+    if(saude === 0) status = EMOJI_MAP.get("dead");
+
     return (
         <>
             <div className="emoji">
-                {EMOJI_MAP.get(status) || "🫥"}
+                {status}
             </div>
             <Atributo icone="❤️" valor={saude}/>
             <Atributo icone="🔋" valor={energia}/>
