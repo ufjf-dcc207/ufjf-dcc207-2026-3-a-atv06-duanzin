@@ -16,12 +16,24 @@ export default function Emoji() {
     function happyClick() {
         setStatus("happy");
     }
+    function sickClick() {
+        setStatus("sick");
+    }
+    function deadClick() {
+        setStatus("dead");
+    }
+    function cicleClick() {
+        setStatus("happy");
+    }
 
     return (
         <>
             <div className="emoji">{EMOJI_MAP.get(status) || "😐"}</div>
             <div className="acoes">
                 <button onClick={happyClick}>Happy</button>
+                <button onClick={sickClick}>Sick</button>
+                <button onClick={deadClick}>Dead</button>
+                <button onClick={cicleClick}>Cicle</button>
             </div>
         </>
     )
