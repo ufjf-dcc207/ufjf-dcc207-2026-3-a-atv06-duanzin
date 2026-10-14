@@ -12,31 +12,31 @@ const EMOJI_MAP = new Map<EMOJI_KEYS, string>([
 
 
 export default function Emoji() {
+    const [status, setStatus] = useState<EMOJI_KEYS>("happy");
+    const [comida, setComida] = useState(2);
+    const [agua, setAgua] = useState(2);
+    const [luz, setLuz] = useState(false);
+    const [saude, setSaude] = useState(5);
+    const [energia, setEnergia] = useState(5);
 
-    const [status, setStatus] = useState<EMOJI_KEYS>("happy")
 
-    function happyClick() {
-        setStatus("happy");
+    function alimentarClick() {
+        setComida(Math.min(5, comida + 1));
     }
-    function sickClick() {
-        setStatus("sick");
+    function hidratarClick() {
+        setAgua(Math.min(5, agua + 1));
     }
-    function deadClick() {
-        setStatus("dead");
+    function alternarLuzClick() {
+        setLuz(!luz);
     }
-    function cicleClick() {
-        switch (status) {
-            case "dead":
-                setStatus("happy");
-                break;
-            case "happy":
-                setStatus("sick");
-                break;
-            case "sick":
-                setStatus("dead");
-                break;
-            default:
-                setStatus("happy");
+    function cicloClick() {
+        setComida(Math.max(0, comida - 1));
+        if(comida === 0) setSaude(Math.min(0, saude - 1));
+        setAgua(Math.max(0, agua - 1));
+        if(agua === 0) setSaude(Math.max(0, saude - 1));
+        if(luz) {
+            setEnergia(Math.max(0, energia - 1));
+            if(energia === 0) setSaude(Math.max(0, saude - 1));
         }
     }
 
@@ -45,15 +45,16 @@ export default function Emoji() {
             <div className="emoji">
                 {EMOJI_MAP.get(status) || "🫥"}
             </div>
-            <Atributo icone="❤️" />
-            <Atributo icone="🔋" />
-            <Atributo icone="💧" />
-            <Atributo icone="🍗" />
+            <Atributo icone="❤️" valor={saude}/>
+            <Atributo icone="🔋" valor={energia}/>
+            <Atributo icone="💧" valor={agua}/>
+            <Atributo icone="🍗" valor={comida}/>
+            {luz && "💡"}
             <div className="acoes">
-                <button onClick={happyClick}>Happy</button>
-                <button onClick={sickClick}>Sick</button>
-                <button onClick={deadClick}>Dead</button>
-                <button onClick={cicleClick}>Cicle</button>
+                <button onClick={alimentarClick}>Alimentar</button>
+                <button onClick={hidratarClick}>Hidratar</button>
+                <button onClick={alternarLuzClick}>Ligar Luz</button>
+                <button onClick={cicloClick}>Ciclo</button>
             </div>
         </>
     );
